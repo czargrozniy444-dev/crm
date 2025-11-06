@@ -10,6 +10,13 @@ async function bootstrap() {
   const logger = new AppLogger();
   app.useLogger(logger);
 
+  // ✅ CORS yoqish — faqat frontend manzilingizga ruxsat beradi
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -20,6 +27,6 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
 
   await app.listen(Number(process.env.PORT) || 3000);
-  logger.log(`Server http://localhost:${process.env.PORT || 3000}`);
+  logger.log(`🚀 Server running at http://localhost:${process.env.PORT || 3000}`);
 }
 bootstrap();
